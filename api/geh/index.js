@@ -46,6 +46,14 @@ const geh = (err, req, res, next) => {
     err = new AppError("Duplicate record found.", 400);
   }
 
+  // Mongoose validation error
+  if (err.name === "ValidationError") {
+    const message = Object.values(err.errors)
+      .map((val) => val.message)
+      .join(" || ");
+    err = new AppError(message, 400);
+  }
+
   // Casting error
   if (err.name === "CastError") {
     const message = `Resource not found`;
