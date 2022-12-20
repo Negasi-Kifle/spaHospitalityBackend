@@ -24,6 +24,14 @@ const servicesSchema = new mongoose.Schema(
     },
     commission: Number,
     description: String,
+    status: {
+      type: String,
+      default: "Active",
+      enum: {
+        values: ["Active", "Inactive"],
+        message: "Unknown status",
+      },
+    },
   },
   {
     writeConcern: {
