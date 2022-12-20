@@ -9,7 +9,7 @@ const router = require("express").Router();
 const branchController = require("./controller");
 
 // Routes
-router.route("/").post(branchController.create);
+router.route("/").post(branchController.create).get(branchController.getAll);
 
 // Export router
 module.exports = router;

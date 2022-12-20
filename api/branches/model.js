@@ -11,11 +11,16 @@ const branchesSchema = new mongoose.Schema(
     branchName: {
       type: String,
       required: [true, "Branch name is required"],
-      minLength: [1, "Branch name must contain at least one character"],
-      maxLength: [
+      maxlength: [1, "Branch name must contain at least one character"],
+      maxlength: [
         200,
         "Branch name should not contain more than 100 characters",
       ],
+    },
+    branchePhoneNumber: {
+      type: String,
+      maxlength: [13, "Phone number must have 13 digits"],
+      maxlength: [13, "Phone number must have 13 digits"],
     },
     address: {
       type: String,

@@ -33,3 +33,19 @@ exports.create = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get all branches
+exports.getAll = async (req, res, next) => {
+  try {
+    // Get all branches
+    const branches = await Branches.find().lean();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { branches },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
