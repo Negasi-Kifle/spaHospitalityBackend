@@ -9,16 +9,26 @@ const AppError = require("../../utils/appError");
 // Branches model
 const Branches = require("./model");
 
-// Create branch
+/**
+ * Create new branch
+ */
 exports.create = async (req, res, next) => {
   try {
     // Request body
-    const { branchName, address, building, services, status } = req.body;
+    const {
+      branchName,
+      address,
+      branchPhoneNumber,
+      building,
+      services,
+      status,
+    } = req.body;
 
     // Create admin
     const branch = await Branches.create({
       branchName,
       address,
+      branchPhoneNumber,
       building,
       services,
       status,
@@ -34,7 +44,9 @@ exports.create = async (req, res, next) => {
   }
 };
 
-// Get all branches
+/**
+ * Get all branches
+ */
 exports.getAll = async (req, res, next) => {
   try {
     // Get all branches
@@ -50,7 +62,9 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-// Get one branch by id
+/**
+ * Get one branch by id
+ */
 exports.getById = async (req, res, next) => {
   try {
     // Find branch
@@ -66,7 +80,9 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-// Delete by id
+/**
+ * Delete one branch by id
+ */
 exports.deleteById = async (req, res, next) => {
   try {
     // Delete branch
@@ -82,7 +98,9 @@ exports.deleteById = async (req, res, next) => {
   }
 };
 
-// Delete all
+/**
+ * Delete all branches
+ */
 exports.deleteAll = async (req, res, next) => {
   try {
     // Delete all
@@ -92,6 +110,47 @@ exports.deleteAll = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "All branches deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update branch detail.
+ */
+exports.update = async (req, res, next) => {
+  try {
+    // If branch not found, send error
+    if (!(await Branches.findById(req.params.branchId))) {
+      return next(new AppError("Branch not found", 400));
+    }
+
+    // Request body
+    const {
+      branchName,
+      address,
+      branchPhoneNumber,
+      building,
+      services,
+      status,
+    } = req.body;
+
+    // Update branch
+    const branch = await Branches.findByIdAndUpdate(req.params.branchId, {
+      branchName,
+      branchPhoneNumber,
+      address,
+      building,
+      services,
+      status,
+    });
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "Branch updated successfully",
+      data: { branch },
     });
   } catch (error) {
     next(error);

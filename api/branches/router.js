@@ -18,6 +18,7 @@ router
 router
   .route("/:branchId")
   .get(branchController.getById)
-  .delete(branchController.deleteById);
+  .delete(branchController.deleteById)
+  .patch(branchController.update);
 // Export router
 module.exports = router;
