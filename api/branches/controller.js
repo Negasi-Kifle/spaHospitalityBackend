@@ -55,6 +55,7 @@ exports.getAll = async (req, res, next) => {
     // Response
     res.status(200).json({
       success: true,
+      size: branches.length,
       data: { branches },
     });
   } catch (error) {

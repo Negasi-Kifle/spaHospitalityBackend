@@ -9,7 +9,8 @@ const router = require("express").Router();
 const serviceController = require("./controller");
 
 // Routes
-router.route("/").post(serviceController.create);
+router.route("/").post(serviceController.create).get(serviceController.getAll);
 
+router.route("/:serviceId").get(serviceController.getById);
 // Export
 module.exports = router;

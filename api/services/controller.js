@@ -6,9 +6,11 @@
 const AppError = require("../../utils/appError");
 
 // service model
-const Service = require("./model");
+const Services = require("./model");
 
-// Create
+/**
+ * Create service
+ */
 exports.create = async (req, res, next) => {
   try {
     // Request body
@@ -27,7 +29,7 @@ exports.create = async (req, res, next) => {
     priceAfterVAT = priceBeforeVAT + (priceBeforeVAT * serviceVAT) / 100;
 
     // Create service
-    const service = await Service.create({
+    const service = await Services.create({
       serviceName,
       serviceDuration,
       serviceVAT,
@@ -39,6 +41,43 @@ exports.create = async (req, res, next) => {
     });
 
     // Response
+    res.status(200).json({
+      success: true,
+      data: { service },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get all services
+ */
+exports.getAll = async (req, res, next) => {
+  try {
+    // Get all services
+    const services = await Services.find().lean();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      size: services.length,
+      data: { services },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get a service by it id
+ */
+exports.getById = async (req, res, next) => {
+  try {
+    // Get service by id
+    const service = await Services.findById(req.params.serviceId);
+
+    //Response
     res.status(200).json({
       success: true,
       data: { service },
