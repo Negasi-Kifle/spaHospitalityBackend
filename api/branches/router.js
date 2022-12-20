@@ -9,7 +9,15 @@ const router = require("express").Router();
 const branchController = require("./controller");
 
 // Routes
-router.route("/").post(branchController.create).get(branchController.getAll);
+router
+  .route("/")
+  .post(branchController.create)
+  .get(branchController.getAll)
+  .delete(branchController.deleteAll);
 
+router
+  .route("/:branchId")
+  .get(branchController.getById)
+  .delete(branchController.deleteById);
 // Export router
 module.exports = router;

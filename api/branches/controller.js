@@ -49,3 +49,51 @@ exports.getAll = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get one branch by id
+exports.getById = async (req, res, next) => {
+  try {
+    // Find branch
+    const branch = await Branches.findById(req.params.branchId);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { branch },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete by id
+exports.deleteById = async (req, res, next) => {
+  try {
+    // Delete branch
+    await Branches.findByIdAndDelete(req.params.branchId);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "Branch deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete all
+exports.deleteAll = async (req, res, next) => {
+  try {
+    // Delete all
+    await Branches.deleteMany();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "All branches deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
