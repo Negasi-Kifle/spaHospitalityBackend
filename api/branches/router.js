@@ -20,5 +20,7 @@ router
   .get(branchController.getById)
   .delete(branchController.deleteById)
   .patch(branchController.update);
+
+router.patch("/updatestatus/:branchId", branchController.updateStatus);
 // Export router
 module.exports = router;

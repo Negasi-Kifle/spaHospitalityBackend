@@ -35,11 +35,11 @@ const branchesSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      default: "Active",
       enum: {
         values: ["Active", "Inactive"],
         message: "Unknown status selected",
       },
+      default: "Active",
     },
   },
   {

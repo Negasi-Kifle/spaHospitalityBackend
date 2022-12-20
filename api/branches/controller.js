@@ -137,19 +137,52 @@ exports.update = async (req, res, next) => {
     } = req.body;
 
     // Update branch
-    const branch = await Branches.findByIdAndUpdate(req.params.branchId, {
-      branchName,
-      branchPhoneNumber,
-      address,
-      building,
-      services,
-      status,
-    });
+    const branch = await Branches.findByIdAndUpdate(
+      req.params.branchId,
+      {
+        branchName,
+        branchPhoneNumber,
+        address,
+        building,
+        services,
+        status,
+      },
+      { runValidators: true, new: true }
+    );
 
     // Response
     res.status(200).json({
       success: true,
       message: "Branch updated successfully",
+      data: { branch },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update branch status
+ */
+exports.updateStatus = async (req, res, next) => {
+  try {
+    // If branch does not exist, throw error
+    if (!(await Branches.findById(req.params.branchId))) {
+      return next(new AppError("Branch not found", 400));
+    }
+
+    // Update branch
+    const branch = await Branches.findByIdAndUpdate(
+      req.params.branchId,
+      {
+        status: req.body.status,
+      },
+      { runValidators: true, new: true }
+    );
+
+    // Response
+    res.status(200).json({
+      success: true,
       data: { branch },
     });
   } catch (error) {
