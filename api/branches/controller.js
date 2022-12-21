@@ -9,6 +9,9 @@ const AppError = require("../../utils/appError");
 // Branches model
 const Branches = require("./model");
 
+// Branch rooms
+const BranchRooms = require("../branch_rooms/model");
+
 /**
  * Create new branch
  */
@@ -83,10 +86,13 @@ exports.deleteById = async (req, res, next) => {
     // Delete branch
     await Branches.findByIdAndDelete(req.params.branchId);
 
+    // Cascade all branch rooms
+    await BranchRooms.deleteMany({ branch: req.params.branchId });
+
     // Response
     res.status(200).json({
       success: true,
-      message: "Branch deleted successfully",
+      message: "Branch and rooms of the branch are deleted successfully",
     });
   } catch (error) {
     next(error);
@@ -100,6 +106,9 @@ exports.deleteAll = async (req, res, next) => {
   try {
     // Delete all
     await Branches.deleteMany();
+
+    // Delete all rooms
+    await BranchRooms.deleteMany();
 
     // Response
     res.status(200).json({

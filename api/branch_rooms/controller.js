@@ -58,7 +58,9 @@ exports.create = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
     // Get all
-    const branchRooms = await BranchRooms.find().lean();
+    const branchRooms = await BranchRooms.find()
+      .lean()
+      .populate({ path: "branch", select: "branchName" });
 
     // Response
     res.status(200).json({
@@ -77,7 +79,10 @@ exports.getAll = async (req, res, next) => {
 exports.getById = async (req, res, next) => {
   try {
     // Get room by id
-    const room = await BranchRooms.findById(req.params.roomId);
+    const room = await BranchRooms.findById(req.params.roomId).populate({
+      path: "branch",
+      select: "branchName",
+    });
 
     // Response
     res.status(200).json({
@@ -124,6 +129,89 @@ exports.update = async (req, res, next) => {
         status: data.status,
         description: data.description,
       },
+      { new: true, runValidators: true }
+    );
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { room },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete room by id
+ */
+exports.deleteById = async (req, res, next) => {
+  try {
+    // Delete room
+    await BranchRooms.findByIdAndDelete(req.params.roomId);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "Room deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete all rooms in a branch
+ */
+exports.deleteRoomsInABranch = async (req, res, next) => {
+  try {
+    const branch = await Branches.findById(req.params.branchId);
+
+    // Delete rooms in a branch
+    await BranchRooms.deleteMany({ branch: req.params.branchId });
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: `All rooms in a branch ${branch.branchName} have been deleted successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete all rooms in all branches
+ */
+exports.deleteAll = async (req, res, next) => {
+  try {
+    // Delete all rooms
+    await BranchRooms.deleteMany();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "All rooms in all branches have been deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update room status
+ */
+exports.updateStatus = async (req, res, next) => {
+  try {
+    // Check if room exists
+    if (!(await BranchRooms.findById(req.params.roomId))) {
+      return next(new AppError("Room not found", 400));
+    }
+
+    // Update room status
+    const room = await BranchRooms.findByIdAndUpdate(
+      req.params.roomId,
+      { status: req.body.status },
       { new: true, runValidators: true }
     );
 
