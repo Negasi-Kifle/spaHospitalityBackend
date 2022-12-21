@@ -15,23 +15,17 @@ const Branches = require("./model");
 exports.create = async (req, res, next) => {
   try {
     // Request body
-    const {
-      branchName,
-      address,
-      branchPhoneNumber,
-      building,
-      services,
-      status,
-    } = req.body;
+    const data = req.body;
 
     // Create admin
     const branch = await Branches.create({
-      branchName,
-      address,
-      branchPhoneNumber,
-      building,
-      services,
-      status,
+      branchName: data.branchName,
+      address: data.address,
+      branchPhoneNumber: data.branchPhoneNumber,
+      building: data.building,
+      services: data.services,
+      status: data.status,
+      description: data.description,
     });
 
     // Response
@@ -128,25 +122,19 @@ exports.update = async (req, res, next) => {
     }
 
     // Request body
-    const {
-      branchName,
-      address,
-      branchPhoneNumber,
-      building,
-      services,
-      status,
-    } = req.body;
+    const data = req.body;
 
     // Update branch
     const branch = await Branches.findByIdAndUpdate(
       req.params.branchId,
       {
-        branchName,
-        branchPhoneNumber,
-        address,
-        building,
-        services,
-        status,
+        branchName: data.branchName,
+        branchPhoneNumber: data.branchPhoneNumber,
+        address: data.address,
+        building: data.building,
+        services: data.services,
+        status: data.status,
+        description: data.description,
       },
       { runValidators: true, new: true }
     );
