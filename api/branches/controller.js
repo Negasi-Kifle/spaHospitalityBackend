@@ -110,7 +110,7 @@ exports.deleteAll = async (req, res, next) => {
     // Response
     res.status(200).json({
       success: true,
-      message: "All branches deleted successfully",
+      message: "All branches in DB has been deleted successfully",
     });
   } catch (error) {
     next(error);
