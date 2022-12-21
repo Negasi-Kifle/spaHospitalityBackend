@@ -60,7 +60,8 @@ exports.getAll = async (req, res, next) => {
     // Get all
     const branchRooms = await BranchRooms.find()
       .lean()
-      .populate({ path: "branch", select: "branchName" });
+      .populate({ path: "branch", select: "branchName" })
+      .populate({ path: "services", select: "serviceName" });
 
     // Response
     res.status(200).json({
@@ -79,10 +80,10 @@ exports.getAll = async (req, res, next) => {
 exports.getById = async (req, res, next) => {
   try {
     // Get room by id
-    const room = await BranchRooms.findById(req.params.roomId).populate({
-      path: "branch",
-      select: "branchName",
-    });
+    const room = await BranchRooms.findById(req.params.roomId)
+      .lean()
+      .populate({ path: "branch", select: "branchName" })
+      .populate({ path: "services", select: "serviceName" });
 
     // Response
     res.status(200).json({

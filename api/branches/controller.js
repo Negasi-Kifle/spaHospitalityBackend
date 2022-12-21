@@ -47,7 +47,9 @@ exports.create = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
     // Get all branches
-    const branches = await Branches.find().lean();
+    const branches = await Branches.find()
+      .lean()
+      .populate({ path: "services", select: "serviceName" });
 
     // Response
     res.status(200).json({
@@ -66,7 +68,9 @@ exports.getAll = async (req, res, next) => {
 exports.getById = async (req, res, next) => {
   try {
     // Find branch
-    const branch = await Branches.findById(req.params.branchId);
+    const branch = await Branches.findById(req.params.branchId)
+      .lean()
+      .populate({ path: "services", select: "serviceName" });
 
     // Response
     res.status(200).json({
