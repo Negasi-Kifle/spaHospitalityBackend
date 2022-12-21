@@ -14,30 +14,22 @@ const Services = require("./model");
 exports.create = async (req, res, next) => {
   try {
     // Request body
-    let {
-      serviceName,
-      serviceDuration,
-      priceBeforeVAT,
-      serviceVAT,
-      priceAfterVAT,
-      commission,
-      description,
-      status,
-    } = req.body;
+    const data = req.body;
 
     // Calculate price after vat
-    priceAfterVAT = priceBeforeVAT + (priceBeforeVAT * serviceVAT) / 100;
+    data.priceAfterVAT =
+      data.priceBeforeVAT + (data.priceBeforeVAT * data.serviceVAT) / 100;
 
     // Create service
     const service = await Services.create({
-      serviceName,
-      serviceDuration,
-      serviceVAT,
-      priceAfterVAT,
-      priceBeforeVAT,
-      commission,
-      description,
-      status,
+      serviceName: data.serviceName,
+      serviceDuration: data.serviceDuration,
+      serviceVAT: data.serviceVAT,
+      priceAfterVAT: data.priceAfterVAT,
+      priceBeforeVAT: data.priceBeforeVAT,
+      commission: data.commission,
+      description: data.description,
+      status: data.status,
     });
 
     // Response
@@ -78,6 +70,49 @@ exports.getById = async (req, res, next) => {
     const service = await Services.findById(req.params.serviceId);
 
     //Response
+    res.status(200).json({
+      success: true,
+      data: { service },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update service detail
+ */
+exports.update = async (req, res, next) => {
+  try {
+    // If service doesnot exist, throw an error
+    if (!(await Services.findById(req.params.serviceId))) {
+      return next(new AppError("Service not found", 400));
+    }
+
+    // Request body
+    const data = req.body;
+
+    // Calculate price after vat
+    data.priceAfterVAT =
+      data.priceBeforeVAT + (data.priceBeforeVAT * data.serviceVAT) / 100;
+
+    // Update service
+    const service = await Services.findByIdAndUpdate(
+      req.params.serviceId,
+      {
+        serviceName: data.serviceName,
+        serviceDuration: data.serviceDuration,
+        serviceVAT: data.serviceVAT,
+        priceAfterVAT: data.priceAfterVAT,
+        priceBeforeVAT: data.priceBeforeVAT,
+        commission: data.commission,
+        description: data.description,
+        status: data.status,
+      },
+      { runValidators: true, new: true }
+    );
+
+    // Response
     res.status(200).json({
       success: true,
       data: { service },
