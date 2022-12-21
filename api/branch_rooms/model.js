@@ -23,6 +23,15 @@ const branchRoomsSchema = new mongoose.Schema(
         ref: "Services",
       },
     ],
+    status: {
+      type: String,
+      enum: {
+        values: ["Active", "Inactive"],
+        message: "Unknown status selected",
+      },
+      default: "Active",
+    },
+    description: String,
   },
   {
     writeConcern: {

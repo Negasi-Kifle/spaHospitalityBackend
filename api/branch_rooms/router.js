@@ -11,6 +11,9 @@ const roomController = require("./controller");
 // Routes
 router.route("/").post(roomController.create).get(roomController.getAll);
 
-router.route("/:roomId").get(roomController.getById);
+router
+  .route("/:roomId")
+  .get(roomController.getById)
+  .patch(roomController.update);
 // Export router
 module.exports = router;
