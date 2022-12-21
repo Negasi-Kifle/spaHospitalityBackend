@@ -20,5 +20,7 @@ router
   .get(serviceController.getById)
   .patch(serviceController.update)
   .delete(serviceController.deleteOneById);
+
+router.patch("/updatestatus/:serviceId", serviceController.updateStatus);
 // Export
 module.exports = router;
