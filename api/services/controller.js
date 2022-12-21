@@ -157,3 +157,30 @@ exports.deleteAll = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * Update service status. This method can used to activate and deactivate a service
+ */
+exports.updateStatus = async (req, res, next) => {
+  try {
+    // If service does not exist, throw error
+    if (!(await Services.findById(req.params.serviceId))) {
+      return next(new AppError("Service does not exist", 400));
+    }
+
+    // Update service status
+    const service = await Services.findByIdAndUpdate(
+      req.params.serviceId,
+      { status: req.body.status },
+      { runValidators: true, new: true }
+    );
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { service },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
