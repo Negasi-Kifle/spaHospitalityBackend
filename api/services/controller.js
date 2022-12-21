@@ -121,3 +121,39 @@ exports.update = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * Delete one service by id
+ */
+exports.deleteOneById = async (req, res, next) => {
+  try {
+    // Delete service
+    await Services.findByIdAndDelete(req.params.serviceId);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "Service deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete all services in DB
+ */
+exports.deleteAll = async (req, res, next) => {
+  try {
+    // Delete all
+    await Services.deleteMany();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "All services in DB has been deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

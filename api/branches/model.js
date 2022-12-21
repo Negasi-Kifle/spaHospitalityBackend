@@ -41,6 +41,7 @@ const branchesSchema = new mongoose.Schema(
       },
       default: "Active",
     },
+    description: String,
   },
   {
     writeConcern: {

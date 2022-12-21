@@ -9,11 +9,16 @@ const router = require("express").Router();
 const serviceController = require("./controller");
 
 // Routes
-router.route("/").post(serviceController.create).get(serviceController.getAll);
+router
+  .route("/")
+  .post(serviceController.create)
+  .get(serviceController.getAll)
+  .delete(serviceController.deleteAll);
 
 router
   .route("/:serviceId")
   .get(serviceController.getById)
-  .patch(serviceController.update);
+  .patch(serviceController.update)
+  .delete(serviceController.deleteOneById);
 // Export
 module.exports = router;
