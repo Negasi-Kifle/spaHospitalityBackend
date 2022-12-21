@@ -114,12 +114,6 @@ exports.update = async (req, res, next) => {
     // Request body
     const data = req.body;
 
-    /**
-     * If branch has services and if no services are provided in the request body,
-     * assign all branch services to the new room by default
-     */
-    if (branch.services && !data.services) data.services = branch.services;
-
     // Update room
     const room = await BranchRooms.findByIdAndUpdate(
       req.params.roomId,
