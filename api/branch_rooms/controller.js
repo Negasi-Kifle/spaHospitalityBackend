@@ -11,7 +11,9 @@ const Branches = require("../branches/model");
 // AppError
 const AppError = require("../../utils/appError");
 
-// Create
+/**
+ * Create branch room
+ */
 exports.create = async (req, res, next) => {
   try {
     // Request body
@@ -33,6 +35,24 @@ exports.create = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: { branchRoom },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get all branch rooms
+ */
+exports.getAll = async (req, res, next) => {
+  try {
+    // Get all
+    const branchRooms = await BranchRooms.find().lean();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { branchRooms },
     });
   } catch (error) {
     next(error);

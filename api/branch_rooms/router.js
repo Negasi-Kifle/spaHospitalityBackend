@@ -9,7 +9,7 @@ const router = require("express").Router();
 const roomController = require("./controller");
 
 // Routes
-router.route("/").post(roomController.create);
+router.route("/").post(roomController.create).get(roomController.getAll);
 
 // Export router
 module.exports = router;
