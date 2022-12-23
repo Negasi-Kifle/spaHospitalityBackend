@@ -1,5 +1,5 @@
 /**
- * This is the model for employees
+ * This is the model for users
  */
 
 // Mongoose
@@ -11,7 +11,7 @@ const validator = require("validator");
 // Bcrypt
 const bcrypt = require("bcryptjs");
 
-// Employees
+// Users
 const usersSchema = new mongoose.Schema(
   {
     fullName: {
@@ -110,7 +110,7 @@ const usersSchema = new mongoose.Schema(
     },
     fixedSalaryAmount: Number,
     commissionAmount: Number,
-    employmentDate: {
+    employementDate: {
       type: Date,
       required: [true, "Employment date is required"],
     },
@@ -156,8 +156,8 @@ usersSchema.pre("save", async function (next) {
   next();
 });
 
-// Employes model
-const Employees = mongoose.model("Employees", usersSchema);
+// Users model
+const Users = mongoose.model("Users", usersSchema);
 
 // Export model
-module.exports = Employees;
+module.exports = Users;
