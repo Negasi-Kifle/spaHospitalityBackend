@@ -30,8 +30,17 @@ const usersSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       required: [true, "Phone number is requried"],
+      unique: true,
       minlength: [13, "Phone number must contain 13 digits only"],
       maxlength: [13, "Phone number must contain 13 digits only"],
+    },
+    email: {
+      type: String,
+      validate: {
+        validator: validator.isEmail,
+        message: "Invalid email address",
+      },
+      unique: true,
     },
     address: String,
     subcity: String,

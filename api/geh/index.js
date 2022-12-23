@@ -43,7 +43,13 @@ const geh = (err, req, res, next) => {
 
   // Duplicate data error
   if (err.code === 11000) {
-    err = new AppError("Duplicate record found.", 400);
+    if (err.message.includes("phoneNumber")) {
+      err = new AppError("Phone number is already used.", 400);
+    } else if (err.message.includes("email")) {
+      err = new AppError("Email is already used", 400);
+    } else if (err.message.includes("name")) {
+      err = new AppError("Duplicate name found", 400);
+    }
   }
 
   // Mongoose validation error

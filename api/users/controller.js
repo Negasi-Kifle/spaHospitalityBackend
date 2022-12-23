@@ -26,6 +26,7 @@ exports.create = async (req, res, next) => {
       fullName: data.fullName,
       gender: data.gender,
       phoneNumber: data.phoneNumber,
+      email: data.email,
       subcity: data.subcity,
       woreda: data.woreda,
       village: data.village,
@@ -43,6 +44,25 @@ exports.create = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: { user },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get all users
+ */
+exports.getAll = async (req, res, next) => {
+  try {
+    // Get all users
+    const users = await Users.find();
+
+    // Response
+    res.status(200).json({
+      success: true,
+      size: users.length,
+      data: { users },
     });
   } catch (error) {
     next(error);

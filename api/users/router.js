@@ -9,7 +9,7 @@ const router = require("express").Router();
 const userController = require("./controller");
 
 // Routes
-router.route("/").post(userController.create);
+router.route("/").post(userController.create).get(userController.getAll);
 
 // Export router
 module.exports = router;
