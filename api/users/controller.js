@@ -21,6 +21,10 @@ exports.create = async (req, res, next) => {
     data.password = "abcspa@123";
     data.passwordConfirm = "abcspa@123";
 
+    // Check "skill" is an array of services
+    if (data.skills && !Array.isArray(data.skills))
+      return next(new AppError("Skills must be an array", 400));
+
     // Create user
     const user = await Users.create({
       fullName: data.fullName,
@@ -55,14 +59,36 @@ exports.create = async (req, res, next) => {
  */
 exports.getAll = async (req, res, next) => {
   try {
+    // Add filter options
+    let filter = {};
+    if (req.query) filter = req.query;
+
     // Get all users
-    const users = await Users.find();
+    const users = await Users.find(filter).lean();
 
     // Response
     res.status(200).json({
       success: true,
       size: users.length,
       data: { users },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get one user by id
+ */
+exports.getById = async (req, res, next) => {
+  try {
+    // Get one user by id
+    const user = await Users.findById(req.params.userId);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      data: { user },
     });
   } catch (error) {
     next(error);
