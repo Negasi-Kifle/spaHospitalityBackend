@@ -9,8 +9,15 @@ const router = require("express").Router();
 const userController = require("./controller");
 
 // Routes
-router.route("/").post(userController.create).get(userController.getAll);
+router
+  .route("/")
+  .post(userController.create)
+  .get(userController.getAll)
+  .delete(userController.deleteAllOrMultipleUsers);
 
-router.route("/:userId").get(userController.getById);
+router
+  .route("/:userId")
+  .get(userController.getById)
+  .delete(userController.deleteOneById);
 // Export router
 module.exports = router;

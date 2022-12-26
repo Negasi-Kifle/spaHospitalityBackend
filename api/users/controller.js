@@ -60,8 +60,7 @@ exports.create = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
     // Add filter options
-    let filter = {};
-    if (req.query) filter = req.query;
+    const filter = req.query;
 
     // Get all users
     const users = await Users.find(filter).lean();
@@ -89,6 +88,45 @@ exports.getById = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: { user },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete user by id
+ */
+exports.deleteOneById = async (req, res, next) => {
+  try {
+    // Delete user
+    await Users.deleteOne({ _id: req.params.userId });
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Delete all/multiple users - queries used if passed in request
+ */
+exports.deleteAllOrMultipleUsers = async (req, res, next) => {
+  try {
+    // Filter options
+    const filter = req.query;
+
+    // Delete all users that satisfy the query
+    await Users.deleteMany(filter);
+
+    // Response
+    res.status(200).json({
+      success: true,
+      message: "Multiple users have been deleted successfully",
     });
   } catch (error) {
     next(error);
