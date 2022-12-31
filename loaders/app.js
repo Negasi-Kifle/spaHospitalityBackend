@@ -9,6 +9,9 @@ const express = require("express");
 // Global error handler
 const geh = require("../api/geh");
 
+// CORS
+const cors = require("cors");
+
 // Router files
 const branchRouter = require("../api/branches/router");
 const serviceRouter = require("../api/services/router");
@@ -17,6 +20,13 @@ const userRouter = require("../api/users/router");
 
 // Initialize express
 const app = express();
+
+// Use third party middlewares
+app.use(
+  cors({
+    origin: "http://localhost:3000/branchrooms/createbranchroom",
+  })
+);
 
 // Request body parser
 app.use(express.json());
