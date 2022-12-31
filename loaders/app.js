@@ -28,7 +28,7 @@ const app = express();
 // Use third party middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000/branchrooms/createbranchroom",
+    origin: "http://localhost:3000",
   })
 );
 app.use(compression());
