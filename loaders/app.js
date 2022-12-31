@@ -26,11 +26,7 @@ const userRouter = require("../api/users/router");
 const app = express();
 
 // Use third party middlewares
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors());
 app.use(compression());
 app.use(helmet());
 
