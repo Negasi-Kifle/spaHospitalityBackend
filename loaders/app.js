@@ -12,6 +12,10 @@ const geh = require("../api/geh");
 // CORS
 const cors = require("cors");
 
+// Helmet
+const helmet = require("helmet");
+const compression = require("compression");
+
 // Router files
 const branchRouter = require("../api/branches/router");
 const serviceRouter = require("../api/services/router");
