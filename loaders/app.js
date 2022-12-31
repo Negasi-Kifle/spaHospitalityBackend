@@ -27,6 +27,8 @@ app.use(
     origin: "http://localhost:3000/branchrooms/createbranchroom",
   })
 );
+app.use(compression());
+app.use(helmet());
 
 // Request body parser
 app.use(express.json());
