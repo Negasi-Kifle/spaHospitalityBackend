@@ -35,6 +35,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Mount endpoints with router files
+app.get("/api/v1", (req, res) => res.send("Hello World."));
+
 app.use("/api/v1/branches", branchRouter);
 app.use("/api/v1/services", serviceRouter);
 app.use("/api/v1/branchrooms", roomRouter);
